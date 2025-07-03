@@ -37,7 +37,9 @@ class SousCategorieResource extends Resource
     {
         return $table
             ->columns([
-                //
+                 Tables\Columns\TextColumn::make('id')->label('ID'),
+                 Tables\Columns\TextColumn::make('nom')->label('Nom'),
+                 Tables\Columns\TextColumn::make('categorie.nom')->label('Catégorie parente'),
             ])
             ->filters([
                 //

@@ -32,7 +32,7 @@ class ProduitResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('nom')->required(),
+            TextInput::make('nom')->required(),
             RichEditor::make('description')->label('Description')->columnSpanFull(),
             TextInput::make('prix')->numeric()->required(),
             TextInput::make('stock')->numeric()->required(),
@@ -49,7 +49,6 @@ class ProduitResource extends Resource
                 ->label('Sous-catégorie')
                 ->relationship('sousCategorie', 'nom')
                 ->required(),
-
             ]);
     }
 
@@ -57,7 +56,12 @@ class ProduitResource extends Resource
     {
         return $table
             ->columns([
-                         ImageColumn::make('image')->label('Image')->circular(),
+        ImageColumn::make('image')
+    ->label('Image')
+    ->circular()
+    ->getStateUsing(fn ($record) => asset('storage/' . $record->image)),
+
+
             TextColumn::make('nom')->searchable(),
             TextColumn::make('categorie.nom')->label('Catégorie')->sortable(),
             TextColumn::make('prix')->money('XOF'),
@@ -67,8 +71,8 @@ class ProduitResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('categorie')
-    ->relationship('categorie', 'nom')
-    ->label('Filtrer par catégorie'),
+            ->relationship('categorie', 'nom')
+            ->label('Filtrer par catégorie'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
